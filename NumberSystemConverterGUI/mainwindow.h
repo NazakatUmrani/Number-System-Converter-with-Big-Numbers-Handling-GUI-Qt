@@ -5,6 +5,7 @@
 #include "cliBigNumbersArithematic.hpp"
 #include "cliNumberSystem.hpp"
 #include "cliExtraFuncs.hpp"
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,7 +20,8 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_Conversion_currentIndexChanged(int index);
+    void performConversion();
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
