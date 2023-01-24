@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>519</width>
+    <height>266</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLineEdit" name="InputNum">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="Conversion">
+        <item>
+         <property name="text">
+          <string>Decimal to Binary</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Decimal to Octal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Decimal to Hexadecimal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Binary to Decimal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Octal to Decimal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Hexadecimal to Decimal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Binary to Octal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Binary to Hexadecimal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Octal to Binary</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Octal to Hexadecimal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Hexadecimal to Octal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Hexadecimal to Binary</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Result">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>519</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
