@@ -213,4 +213,3 @@ void MainWindow::on_InputNum_returnPressed()
 {
     performConversion();
 }
-
