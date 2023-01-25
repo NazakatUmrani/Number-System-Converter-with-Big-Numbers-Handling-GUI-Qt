@@ -23,6 +23,8 @@ private slots:
     void performConversion();
     void on_pushButton_clicked();
 
+    void on_InputNum_returnPressed();
+
 private:
     Ui::MainWindow *ui;
     ifstream in;
