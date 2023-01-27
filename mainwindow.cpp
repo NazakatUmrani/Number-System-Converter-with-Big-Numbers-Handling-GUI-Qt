@@ -213,3 +213,8 @@ void MainWindow::on_InputNum_returnPressed()
 {
     performConversion();
 }
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    QMessageBox::information(this, "About Developer", "This app is developed by Nazakat Umrani (21SW49)\nFor More information visit my Github Account\nGithub: github.com/nazakatumrani");
+}
