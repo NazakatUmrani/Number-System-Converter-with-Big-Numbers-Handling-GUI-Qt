@@ -6,6 +6,7 @@
 #include "cliNumberSystem.hpp"
 #include "cliExtraFuncs.hpp"
 #include <QMessageBox>
+#include "historydialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,13 +22,13 @@ public:
 
 private slots:
     void performConversion();
-    void on_pushButton_clicked();
+    void on_convertButton_clicked();
 
     void on_InputNum_returnPressed();
 
-    void on_pushButton_2_clicked();
+    void on_aboutButton_clicked();
 
-    void on_pushButton_3_clicked();
+    void on_historyButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -35,5 +36,6 @@ private:
     ofstream out;
     string historyNum;
     Number_System num;
+    HistoryDialog *histDialog;
 };
 #endif // MAINWINDOW_H

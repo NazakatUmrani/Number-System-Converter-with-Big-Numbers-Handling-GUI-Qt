@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>579</width>
-    <height>292</height>
+    <width>542</width>
+    <height>335</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -224,7 +224,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="convertButton">
         <property name="text">
          <string>Convert</string>
         </property>
@@ -270,7 +270,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="aboutButton">
         <property name="text">
          <string>About</string>
         </property>
@@ -293,7 +293,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="historyButton">
         <property name="text">
          <string>History</string>
         </property>
@@ -320,6 +320,14 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>InputNum</tabstop>
+  <tabstop>Conversion</tabstop>
+  <tabstop>convertButton</tabstop>
+  <tabstop>aboutButton</tabstop>
+  <tabstop>historyButton</tabstop>
+  <tabstop>Result</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

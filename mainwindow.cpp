@@ -203,7 +203,7 @@ void MainWindow::performConversion(){
     historyNum = num.string_plus(historyNum, "1");
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_convertButton_clicked()
 {
     performConversion();
 }
@@ -214,7 +214,15 @@ void MainWindow::on_InputNum_returnPressed()
     performConversion();
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_aboutButton_clicked()
 {
     QMessageBox::information(this, "About Developer", "This app is developed by Nazakat Umrani (21SW49)\nFor More information visit my Github Account\nGithub: github.com/nazakatumrani");
 }
+
+void MainWindow::on_historyButton_clicked()
+{
+    histDialog = new HistoryDialog(this);
+    histDialog->setWindowTitle("History");
+    histDialog->show();
+}
+
