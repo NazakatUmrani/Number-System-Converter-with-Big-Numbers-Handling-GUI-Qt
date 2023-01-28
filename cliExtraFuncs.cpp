@@ -1,4 +1,5 @@
 #include "cliExtraFuncs.hpp"
+#include <QString>
 void help_menu(){
     cout<<"----------------------Help Menu----------------------"<<endl;
     cout<<" 1   --   for Decimal          to        Binary"<<endl;
@@ -75,4 +76,43 @@ void searchInHistory(string &n){
         cout << "\nData does not exist\n" << endl;
     }
     in3.close();
+}
+
+void deletePreviousConversion(string &n){
+    ifstream in;
+    ofstream out;
+    string line, num;
+    BigNumbersArithematic obj;
+    in.open("History.txt");
+    out.open("TempHistory.txt");
+    getline(in, line);
+    while (getline(in, line)){
+        out << line << endl;
+    }
+    in.close();
+    out.close();
+    num = obj.string_minus(n,"2");
+    line = num + " Conversions Performed";
+    in.open("TempHistory.txt");
+    out.open("History.txt");
+    out << line << endl;
+    int numInt;
+    numInt = QString::fromStdString(num).toInt();
+    while(--numInt){
+        getline(in, line);
+        out << line << endl;
+    }
+    in.close();
+    out.close();
+    try{
+        int x = remove("TempHistory.txt");
+        if (x != 0){
+            throw "TempHistory File Not Deleted";
+        }
+    }
+    catch(const char* e)
+    {
+        cerr << e << endl;
+    }
+    n = obj.string_plus(n,"1");
 }

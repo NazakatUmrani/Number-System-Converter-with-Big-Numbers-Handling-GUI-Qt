@@ -21,9 +21,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    friend void deletePreviousConversion(string &n);
 
 private slots:
     void performConversion();
+
     void on_convertButton_clicked();
 
     void on_InputNum_returnPressed();
@@ -31,6 +33,10 @@ private slots:
     void on_aboutButton_clicked();
 
     void on_historyButton_clicked();
+
+    void on_InputNumComboBox_currentIndexChanged(int index);
+
+    void on_swapButton_clicked();
 
 private:
     Ui::MainWindow *ui;
