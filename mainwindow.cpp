@@ -216,4 +216,3 @@ void MainWindow::on_historyButton_clicked()
     histDialog->setWindowTitle("History");
     histDialog->show();
 }
-
