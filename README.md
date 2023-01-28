@@ -13,5 +13,3 @@ Below are some Screenshots attached...
 ![Screesnhot 4](/Screenshots/04.png?raw=true "About Window")
 
 ![Screesnhot 5](/Screenshots/05.png?raw=true "History Window")
-
-![Screesnhot 6](/Screenshots/06.png?raw=true "Errors Windows")
