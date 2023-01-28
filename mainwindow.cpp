@@ -34,7 +34,6 @@ void MainWindow::performConversion(){
     if(ui->Conversion->currentIndex() == 0){
         num.numbercopy = num.number;
         if (num.is_decimal() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Decimal Number!");
             return;
         }
@@ -48,7 +47,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 1){
         num.numbercopy = num.number;
         if (num.is_decimal() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Decimal Number!");
             return;
         }
@@ -62,7 +60,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 2){
         num.numbercopy = num.number;
         if (num.is_decimal() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Decimal Number!");
             return;
         }
@@ -76,7 +73,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 3){
         num.numbercopy = num.number;
         if (num.is_binary() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Binary Number!");
             return;
         }
@@ -90,7 +86,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 4){
         num.numbercopy = num.number;
         if (num.is_octal() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Octal Number!");
             return;
         }
@@ -104,7 +99,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 5){
         num.numbercopy = num.number;
         if (num.is_hexadecimal() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Hexadecimal Number!");
             return;
         }
@@ -118,7 +112,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 6){
         num.numbercopy = num.number;
         if (num.is_binary()== false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Binary Number!");
             return;
         }
@@ -132,7 +125,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 7){
         num.numbercopy = num.number;
         if (num.is_binary() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Binary Number!");
             return;
         }
@@ -146,7 +138,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 8){
         num.numbercopy = num.number;
         if (num.is_octal() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Octal Number!");
             return;
         }
@@ -160,7 +151,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 9){
         num.numbercopy = num.number;
         if (num.is_octal() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Octal Number!");
             return;
         }
@@ -174,7 +164,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 10){
         num.numbercopy = num.number;
         if (num.is_hexadecimal() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Hexadecimal Number!");
             return;
         }
@@ -188,7 +177,6 @@ void MainWindow::performConversion(){
     else if(ui->Conversion->currentIndex() == 11){
         num.numbercopy = num.number;
         if (num.is_hexadecimal() == false){
-            out.close();
             QMessageBox::warning(this, "Wrong Input","Entered Number is not a Hexadecimal Number!");
             return;
         }
@@ -199,24 +187,27 @@ void MainWindow::performConversion(){
             updateConversionsPerformed(historyNum);
         }
     }
-    out.close();
     historyNum = num.string_plus(historyNum, "1");
 }
 
 void MainWindow::on_convertButton_clicked()
 {
     performConversion();
+    out.close();
 }
 
 
 void MainWindow::on_InputNum_returnPressed()
 {
-    performConversion();
+    on_convertButton_clicked();
 }
 
 void MainWindow::on_aboutButton_clicked()
 {
-    QMessageBox::information(this, "About Developer", "This app is developed by Nazakat Umrani (21SW49)\nFor More information visit my Github Account\nGithub: github.com/nazakatumrani");
+    QMessageBox aboutDev(QMessageBox::NoIcon,"About Developer","This app is developed by Nazakat Umrani (21SW49)\nFor More information visit my Github Account\nGithub: github.com/nazakatumrani",QMessageBox::Ok);
+    QPixmap devPic(":/resources/img/devPic.png");
+    aboutDev.setIconPixmap(devPic.scaled(100,100,Qt::KeepAspectRatio));
+    aboutDev.exec();
 }
 
 void MainWindow::on_historyButton_clicked()

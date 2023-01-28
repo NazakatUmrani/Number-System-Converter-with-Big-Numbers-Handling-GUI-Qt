@@ -6,7 +6,9 @@
 #include "cliNumberSystem.hpp"
 #include "cliExtraFuncs.hpp"
 #include <QMessageBox>
+#include <QPixmap>
 #include "historydialog.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
