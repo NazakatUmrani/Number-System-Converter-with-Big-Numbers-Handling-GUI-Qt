@@ -65,19 +65,19 @@ void MainWindow::on_InputNumComboBox_currentIndexChanged(int index)
         ui->ResultComboBox->clear();
         ui->ResultComboBox->addItem("Octal");
         ui->ResultComboBox->addItem("Decimal");
-        ui->ResultComboBox->addItem("HexaDecimal");
+        ui->ResultComboBox->addItem("Hexadecimal");
     }
     else if(index == 1){
         ui->ResultComboBox->clear();
         ui->ResultComboBox->addItem("Binary");
         ui->ResultComboBox->addItem("Decimal");
-        ui->ResultComboBox->addItem("HexaDecimal");
+        ui->ResultComboBox->addItem("Hexadecimal");
     }
     else if(index == 2){
         ui->ResultComboBox->clear();
         ui->ResultComboBox->addItem("Binary");
         ui->ResultComboBox->addItem("Octal");
-        ui->ResultComboBox->addItem("HexaDecimal");
+        ui->ResultComboBox->addItem("Hexadecimal");
     }
     else if(index == 3){
         ui->ResultComboBox->clear();

@@ -8,7 +8,6 @@ HistoryDialog::HistoryDialog(QWidget *parent) :
     ui->setupUi(this);
     ifstream in2("History.txt");
     string line;
-    string tempLine;
     do{
         getline(in2, line);
         ui->HistoryTextBox->setText(ui->HistoryTextBox->toPlainText()+QString::fromStdString(line+"\n"));
