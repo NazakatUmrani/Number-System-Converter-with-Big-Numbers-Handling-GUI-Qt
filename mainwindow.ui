@@ -224,11 +224,6 @@
         </property>
         <item>
          <property name="text">
-          <string>Binary</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Octal</string>
          </property>
         </item>

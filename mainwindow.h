@@ -38,6 +38,8 @@ private slots:
 
     void on_swapButton_clicked();
 
+    void on_ResultComboBox_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     ifstream in;

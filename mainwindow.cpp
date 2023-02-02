@@ -44,6 +44,11 @@ void MainWindow::on_InputNum_returnPressed()
     on_convertButton_clicked();
 }
 
+void MainWindow::on_ResultComboBox_currentIndexChanged(int index)
+{
+    on_convertButton_clicked();
+}
+
 void MainWindow::on_aboutButton_clicked()
 {
     QMessageBox aboutDev(QMessageBox::NoIcon,"About Developer","This app is developed by Nazakat Umrani (21SW49)\nFor More information visit my Github Account\nGithub: github.com/nazakatumrani",QMessageBox::Ok);
@@ -62,29 +67,61 @@ void MainWindow::on_historyButton_clicked()
 void MainWindow::on_InputNumComboBox_currentIndexChanged(int index)
 {
     if(index == 0){
-        ui->ResultComboBox->clear();
-        ui->ResultComboBox->addItem("Octal");
-        ui->ResultComboBox->addItem("Decimal");
-        ui->ResultComboBox->addItem("Hexadecimal");
+        ui->ResultComboBox->setItemText(0, "Octal");
+        ui->ResultComboBox->setItemText(1, "Decimal");
+        ui->ResultComboBox->setItemText(2, "Hexadecimal");
     }
     else if(index == 1){
-        ui->ResultComboBox->clear();
-        ui->ResultComboBox->addItem("Binary");
-        ui->ResultComboBox->addItem("Decimal");
-        ui->ResultComboBox->addItem("Hexadecimal");
+        ui->ResultComboBox->setItemText(0, "Binary");
+        ui->ResultComboBox->setItemText(1, "Decimal");
+        ui->ResultComboBox->setItemText(2, "Hexadecimal");
     }
     else if(index == 2){
-        ui->ResultComboBox->clear();
-        ui->ResultComboBox->addItem("Binary");
-        ui->ResultComboBox->addItem("Octal");
-        ui->ResultComboBox->addItem("Hexadecimal");
+        ui->ResultComboBox->setItemText(0, "Binary");
+        ui->ResultComboBox->setItemText(1, "Octal");
+        ui->ResultComboBox->setItemText(2, "Hexadecimal");
     }
     else if(index == 3){
-        ui->ResultComboBox->clear();
-        ui->ResultComboBox->addItem("Binary");
-        ui->ResultComboBox->addItem("Octal");
-        ui->ResultComboBox->addItem("Decimal");
+        ui->ResultComboBox->setItemText(0, "Binary");
+        ui->ResultComboBox->setItemText(1, "Octal");
+        ui->ResultComboBox->setItemText(2, "Decimal");
     }
+    on_convertButton_clicked();
+}
+
+void MainWindow::on_swapButton_clicked()
+{
+    QString tempStr = ui->InputNum->text();
+    ui->InputNum->setText(ui->Result->text());
+    ui->Result->setText(tempStr);
+    int tempBox;
+    tempBox = ui->InputNumComboBox->currentIndex();
+    tempStr = ui->ResultComboBox->itemText(ui->ResultComboBox->currentIndex());
+    if(tempStr == "Binary"){
+        ui->InputNumComboBox->setCurrentIndex(0);
+    }
+    else if(tempStr == "Octal"){
+        ui->InputNumComboBox->setCurrentIndex(1);
+    }
+    else if(tempStr == "Decimal"){
+        ui->InputNumComboBox->setCurrentIndex(2);
+    }
+    else if(tempStr == "Hexadecimal"){
+        ui->InputNumComboBox->setCurrentIndex(3);
+    }
+    if(tempBox == 0){
+        ui->ResultComboBox->setCurrentIndex(ui->ResultComboBox->findText(QString::fromStdString("Binary")));
+    }
+    else if(tempBox == 1){
+        ui->ResultComboBox->setCurrentIndex(ui->ResultComboBox->findText(QString::fromStdString("Octal")));
+    }
+    else if(tempBox == 2){
+        ui->ResultComboBox->setCurrentIndex(ui->ResultComboBox->findText(QString::fromStdString("Decimal")));
+    }
+    else if(tempBox == 3){
+        ui->ResultComboBox->setCurrentIndex(ui->ResultComboBox->findText(QString::fromStdString("Hexadecimal")));
+    }
+    //deletePreviousConversion(historyNum);
 }
 
 void MainWindow::performConversion(){
@@ -254,39 +291,3 @@ void MainWindow::performConversion(){
     }
     historyNum = num.string_plus(historyNum, "1");
 }
-
-void MainWindow::on_swapButton_clicked()
-{
-    QString tempStr = ui->InputNum->text();
-    ui->InputNum->setText(ui->Result->text());
-    ui->Result->setText(tempStr);
-    int tempBox;
-    tempBox = ui->InputNumComboBox->currentIndex();
-    tempStr = ui->ResultComboBox->itemText(ui->ResultComboBox->currentIndex());
-    if(tempStr == "Binary"){
-        ui->InputNumComboBox->setCurrentIndex(0);
-    }
-    else if(tempStr == "Octal"){
-        ui->InputNumComboBox->setCurrentIndex(1);
-    }
-    else if(tempStr == "Decimal"){
-        ui->InputNumComboBox->setCurrentIndex(2);
-    }
-    else if(tempStr == "Hexadecimal"){
-        ui->InputNumComboBox->setCurrentIndex(3);
-    }
-    if(tempBox == 0){
-        ui->ResultComboBox->setCurrentIndex(ui->ResultComboBox->findText(QString::fromStdString("Binary")));
-    }
-    else if(tempBox == 1){
-        ui->ResultComboBox->setCurrentIndex(ui->ResultComboBox->findText(QString::fromStdString("Octal")));
-    }
-    else if(tempBox == 2){
-        ui->ResultComboBox->setCurrentIndex(ui->ResultComboBox->findText(QString::fromStdString("Decimal")));
-    }
-    else if(tempBox == 3){
-        ui->ResultComboBox->setCurrentIndex(ui->ResultComboBox->findText(QString::fromStdString("Hexadecimal")));
-    }
-    //deletePreviousConversion(historyNum);
-}
-
