@@ -1,6 +1,9 @@
-This is a project which I have made in past, it was a console app.
-But now I have converted it into GUI app.
-console based app is still available in this repository
+This is a project I have worked on in the past, it was a console app.
+Now I have converted it into GUI.
+
+This is a number system converter, with some extra powers of big numbers handling, I have made some functions that are able to perform arithmetic operations on big numbers, Which means you can perform any conversion, and there is no limit to conversions.
+
+Console based app is still available in this repository
 github.com/nazakatumrani/number-system-converter-with-big-numbers-handling
 
 Below are some Screenshots attached...
