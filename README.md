@@ -1,6 +1,7 @@
-This is a project which I have made in past, it was a terminal app.
+This is a project which I have made in past, it was a console app.
 But now I have converted it into GUI app.
-Terminal based app is still available in another repo on my profile.
+console based app is still available in this repository
+github.com/nazakatumrani/number-system-converter-with-big-numbers-handling
 
 Below are some Screenshots attached...
 
