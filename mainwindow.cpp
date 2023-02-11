@@ -51,7 +51,7 @@ void MainWindow::on_ResultComboBox_currentIndexChanged(int index)
 
 void MainWindow::on_aboutButton_clicked()
 {
-    QMessageBox aboutDev(QMessageBox::NoIcon,"About Developer","This app is developed by Nazakat Umrani (21SW49)\nFor More information visit my Github Account\nGithub: github.com/nazakatumrani",QMessageBox::Ok);
+    QMessageBox aboutDev(QMessageBox::NoIcon,"About Developer","This app is developed by Nazakat Umrani (21SW49)\nFor More information visit my Github Account\nGithub: github.com/nazakatumrani",QMessageBox::Close);
     QPixmap devPic(":/resources/img/devPic.png");
     aboutDev.setIconPixmap(devPic.scaled(100,100,Qt::KeepAspectRatio));
     aboutDev.exec();

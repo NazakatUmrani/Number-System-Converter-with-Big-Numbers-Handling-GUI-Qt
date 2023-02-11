@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 9.0.1, 2023-02-02T23:46:15. -->
+<!-- Written by QtCreator 9.0.1, 2023-02-04T23:06:48. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -98,8 +98,8 @@
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
     <value type="int" key="EnableQmlDebugging">0</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/nazakat/My Data/Projects/Number System Converter GUI QT/NumberSystemConverterGUI/../build-NumberSystemConverterGUI-Desktop-Debug</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/nazakat/My Data/Projects/Number System Converter GUI QT/build-NumberSystemConverterGUI-Desktop-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/build-NumberSystemConverterGUI-Desktop-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/build-NumberSystemConverterGUI-Desktop-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -137,8 +137,8 @@
     <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration">2</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/nazakat/My Data/Projects/Number System Converter GUI QT/NumberSystemConverterGUI/../build-NumberSystemConverterGUI-Desktop-Release</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/nazakat/My Data/Projects/Number System Converter GUI QT/build-NumberSystemConverterGUI-Desktop-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/build-NumberSystemConverterGUI-Desktop-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/build-NumberSystemConverterGUI-Desktop-Release</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -179,8 +179,8 @@
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.2">
     <value type="int" key="EnableQmlDebugging">0</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/nazakat/My Data/Projects/Number System Converter GUI QT/NumberSystemConverterGUI/../build-NumberSystemConverterGUI-Desktop-Profile</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/nazakat/My Data/Projects/Number System Converter GUI QT/build-NumberSystemConverterGUI-Desktop-Profile</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/build-NumberSystemConverterGUI-Desktop-Profile</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/build-NumberSystemConverterGUI-Desktop-Profile</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -220,8 +220,8 @@
     <value type="int" key="SeparateDebugInfo">0</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.3">
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/nazakat/My Data/Projects/Number System Converter GUI QT/NumberSystemConverterGUI/../build-NumberSystemConverterGUI-Desktop-MyWindowsConfig</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/nazakat/My Data/Projects/Number System Converter GUI QT/build-NumberSystemConverterGUI-Desktop-MyWindowsConfig</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/build-NumberSystemConverterGUI-Desktop-MyWindowsConfig</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/build-NumberSystemConverterGUI-Desktop-MyWindowsConfig</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -293,14 +293,14 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/nazakat/My Data/Projects/Number System Converter GUI QT/NumberSystemConverterGUI/NumberSystemConverterGUI.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/nazakat/My Data/Projects/Number System Converter GUI QT/NumberSystemConverterGUI/NumberSystemConverterGUI.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/nazakat/My Data/Projects/Number System Converter GUI Qt/NumberSystemConverterGUI/NumberSystemConverterGUI.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/NumberSystemConverterGUI/NumberSystemConverterGUI.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/nazakat/My Data/Projects/Number System Converter GUI QT/build-NumberSystemConverterGUI-Desktop-Release</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/nazakat/My Data/Projects/Number System Converter GUI Qt/build-NumberSystemConverterGUI-Desktop-Release</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
