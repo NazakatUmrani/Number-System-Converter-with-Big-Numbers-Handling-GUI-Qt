@@ -9,20 +9,19 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    BigNumbersArithematic.cpp \
+    ExtraFuncs.cpp \
+    NumberSystem.cpp \
     historydialog.cpp \
     main.cpp \
-    mainwindow.cpp \
-    cliBigNumbersArithematic.cpp \
-    cliExtraFuncs.cpp \
-    climain.cpp \
-    cliNumberSystem.cpp
+    mainwindow.cpp
 
 HEADERS += \
+    BigNumbersArithematic.hpp \
+    ExtraFuncs.hpp \
+    NumberSystem.hpp \
     historydialog.h \
-    mainwindow.h \
-    cliNumberSystem.hpp \
-    cliExtraFuncs.hpp \
-    cliBigNumbersArithematic.hpp
+    mainwindow.h
 
 FORMS += \
     historydialog.ui \

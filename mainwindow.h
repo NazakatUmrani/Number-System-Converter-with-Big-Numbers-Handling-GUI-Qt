@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "cliBigNumbersArithematic.hpp"
-#include "cliNumberSystem.hpp"
-#include "cliExtraFuncs.hpp"
+#include "BigNumbersArithematic.hpp"
+#include "NumberSystem.hpp"
+#include "ExtraFuncs.hpp"
 #include <QMessageBox>
 #include <QPixmap>
 #include "historydialog.h"

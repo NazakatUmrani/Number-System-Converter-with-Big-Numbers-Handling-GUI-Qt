@@ -1,6 +1,6 @@
-#ifndef CLINUMBERSYSTEM_HPP
-#define CLINUMBERSYSTEM_HPP
-#include "cliBigNumbersArithematic.hpp"
+#ifndef NUMBERSYSTEM_HPP
+#define NUMBERSYSTEM_HPP
+#include "BigNumbersArithematic.hpp"
 class Number_System : public BigNumbersArithematic{
     public:
         string number, numbercopy,result;

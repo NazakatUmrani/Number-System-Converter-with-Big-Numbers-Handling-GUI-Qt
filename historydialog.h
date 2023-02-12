@@ -2,7 +2,7 @@
 #define HISTORYDIALOG_H
 
 #include <QDialog>
-#include "cliExtraFuncs.hpp"
+#include "ExtraFuncs.hpp"
 namespace Ui {
 class HistoryDialog;
 }

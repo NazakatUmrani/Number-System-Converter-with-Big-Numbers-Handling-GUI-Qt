@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/resources">
         <file>img/devPic.png</file>
-        <file>img/swap-icon.jpg</file>
         <file>img/swap.png</file>
     </qresource>
 </RCC>

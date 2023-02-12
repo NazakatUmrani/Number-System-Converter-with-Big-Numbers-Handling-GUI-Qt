@@ -1,5 +1,5 @@
-#ifndef CLIBIGNUMBERSARITHEMATIC_HPP
-#define CLIBIGNUMBERSARITHEMATIC_HPP
+#ifndef BIGNUMBERSARITHEMATIC_HPP
+#define BIGNUMBERSARITHEMATIC_HPP
 #include <iostream>
 #include <algorithm>
 using namespace std;
