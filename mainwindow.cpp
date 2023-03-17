@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
         historyNum = num.string_plus(historyNum, "1");
         in.close();
     }
-    ui->swapButton->setStyleSheet("border-image: url(:/resources/img/swap.png);");
+    //ui->swapButton->setStyleSheet("border-image: url(:/resources/img/swap.png);");
     on_InputNumComboBox_currentIndexChanged(0);
 }
 
