@@ -55,11 +55,24 @@ jobs:
 
       - name: Build Qt Project
         run: |
-          "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
           mkdir build
           cd build
           qmake ../
           nmake
+
+      - name: Debug Environment
+        shell: cmd
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
+          set
+
+      - name: Check Compiler and Build Tools
+        shell: cmd
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
+          where cl
+          where nmake
 
       - name: Package with windeployqt
         run: |
@@ -77,6 +90,7 @@ jobs:
         with:
           name: Windows-Executable
           path: build/release/windows_build.tar.gz
+  
 
   build-macos:
     name: Build on macOS
