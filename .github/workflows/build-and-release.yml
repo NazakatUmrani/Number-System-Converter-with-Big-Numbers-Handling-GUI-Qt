@@ -200,17 +200,17 @@ jobs:
         uses: actions/checkout@v4.2.2
 
       - name: Download Linux Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.8
         with:
           name: Linux-AppImage
 
       - name: Download Windows Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.8
         with:
           name: Windows-Executable
 
       - name: Download MacOS Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.8
         with:
           name: MacOS-App
 
