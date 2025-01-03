@@ -19,9 +19,17 @@ jobs:
           version: '5.15.2'  # You can specify the Qt version you need
           host: 'linux'
 
-      - name: Install linuxdeployqt using action
-        uses: miurahr/install-linuxdeployqt-action@v1.0.1
-       
+      - name: Manually Install linuxdeployqt
+        run: |
+          # Download the linuxdeployqt AppImage
+          wget https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+          
+          # Make the AppImage executable
+          chmod +x linuxdeployqt-continuous-x86_64.AppImage
+          
+          # Move the AppImage to a directory in PATH (optional)
+          sudo mv linuxdeployqt-continuous-x86_64.AppImage /usr/local/bin/linuxdeployqt
+   
       - name: Create Build Folder
         run: mkdir build && cd build
 
@@ -52,23 +60,22 @@ jobs:
       - name: Install Qt using jurplel/install-qt-action
         uses: jurplel/install-qt-action@v4.1.1
         with:
-          version: '5.15.2'  # You can specify the Qt version you need
+          version: '5.15.2'
           host: 'windows'
 
-      - name: Configure MSVC
-        uses: ilammy/msvc-dev-cmd@v1.13.0
+      - name: Set up MinGW
+        uses: egor-tensin/setup-mingw@v2
         with:
-          arch: x64
-          spectre: true
-
+          platform: x64
+        
       - name: Create Build Folder
-        run: mkdir build && cd build
+        run: mkdir build
 
-      - name: Build Project with qmake and nmake
+      - name: Build Project with qmake and make
         run: |
           cd build
           qmake ..
-          nmake
+          mingw32-make
 
       - name: Package Windows App with windeployqt
         run: |
