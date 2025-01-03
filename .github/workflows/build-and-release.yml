@@ -214,11 +214,22 @@ jobs:
         with:
           name: MacOS-App
 
-      # Verify the downloaded files
-      - name: List downloaded files
+          # Ensure tree is installed
+      - name: Install tree
+        run: sudo apt-get update && sudo apt-get install -y tree
+
+      # List the structure of the workspace
+      - name: List workspace structure
         run: |
-            ls -al ${{ github.workspace }}
-            ls -al ${{ github.workspace }}/Contents/MacOS
+          echo "Workspace Directory Structure:"
+          tree ${{ github.workspace }}
+
+      # Search for files with '.app' in the workspace
+      - name: Find .app files or directories
+        run: |
+          echo "Searching for .app files or directories..."
+          find ${{ github.workspace }} -type d -name "*.app"
+          find ${{ github.workspace }} -type f -name "*.app"
 
       - name: Create GitHub Release
         id: create_release
