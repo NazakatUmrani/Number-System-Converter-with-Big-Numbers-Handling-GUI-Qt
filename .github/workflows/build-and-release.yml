@@ -135,13 +135,13 @@ jobs:
       - name: Package Windows App with windeployqt
         run: |
           cd build
-          "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" "NumberSystemConverterGUI.exe"
+          & "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" "NumberSystemConverterGUI.exe"
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4.5.0
         with:
           name: Windows-Executable
-          path: build/"Number System Converter GUI.exe"
+          path: build/NumberSystemConverterGUI.exe
 
   build-macos:
     name: Build for macOS
