@@ -94,6 +94,7 @@ jobs:
         with:
           name: Linux-AppImage
           path: build/NumberSystemConverterGUI*.AppImage
+          compression-level: 0
 
   build-windows:
     name: Build for Windows
@@ -152,6 +153,7 @@ jobs:
         with:
           name: Windows-Executable
           path: build/release/NumberSystemConverterGUI.exe
+          compression-level: 0
 
   build-macos:
     name: Build for macOS
@@ -187,6 +189,7 @@ jobs:
         with:
           name: macOS-App
           path: build/NumberSystemConverterGUI.app
+          compression-level: 0
 
   upload-release:
     name: Upload All Artifacts to Release
@@ -208,22 +211,22 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/Number\ System\ Converter\ GUI*.AppImage
-          asset_name: "Number System Converter GUI-linux-${{ github.ref }}.AppImage"
+          asset_path: build/NumberSystemConverterGUI*.AppImage
+          asset_name: "NumberSystemConverterGUI-linux-${{ github.ref }}.AppImage"
           asset_content_type: application/vnd.appimage
 
       - name: Upload Windows Artifact to GitHub Release
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/"Number System Converter GUI.exe"
-          asset_name: "Number System Converter GUI-windows-${{ github.ref }}.exe"
+          asset_path: build/release/NumberSystemConverterGUI.exe
+          asset_name: "NumberSystemConverterGUI-windows-${{ github.ref }}.exe"
           asset_content_type: application/octet-stream
 
       - name: Upload macOS Artifact to GitHub Release
-        uses: gh actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/"Number System Converter GUI.app"
-          asset_name: "Number System Converter GUI-macos-${{ github.ref }}.app"
+          asset_path: build/NumberSystemConverterGUI.app
+          asset_name: "NumberSystemConverterGUI-macos-${{ github.ref }}.app"
           asset_content_type: application/octet-stream
