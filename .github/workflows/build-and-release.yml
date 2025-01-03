@@ -41,17 +41,20 @@ jobs:
           cd build
           qmake ..
           make -j$(nproc)  # Adjust parallel jobs based on the number of CPU cores
+      
+      - name: List Build Directory Contents
+        run: ls -l build
 
       - name: Package Linux App with linuxdeployqt
         run: |
           cd build
-          /usr/local/bin/linuxdeployqt.AppImage "Number System Converter GUI" -appimage
+          /usr/local/bin/linuxdeployqt.AppImage "NumberSystemConverterGUI" -appimage
 
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4.5.0
         with:
           name: Linux-AppImage
-          path: build/Number\ System\ Converter\ GUI*.AppImage
+          path: build/NumberSystemConverterGUI*.AppImage
 
   build-windows:
     name: Build for Windows
@@ -83,13 +86,16 @@ jobs:
       - name: Build Project with qmake and mingw32-make
         run: |
           cd build
-          qmake ..
-          mingw32-make
+          qmake -spec win32-g++ ..
+          mingw32-make -j$(nproc)
+  
+      - name: Debug Build Directory
+        run: ls -l build
 
       - name: Package Windows App with windeployqt
         run: |
           cd build
-          "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" "Number System Converter GUI.exe"
+          "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" "NumberSystemConverterGUI.exe"
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4.5.0
