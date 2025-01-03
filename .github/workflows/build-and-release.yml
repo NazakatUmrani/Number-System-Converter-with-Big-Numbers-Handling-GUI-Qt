@@ -1,0 +1,173 @@
+name: Build and Release Qt App
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-linux:
+    name: Build on Linux and Create AppImage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qt5-qmake build-essential libqt5widgets5 qttools5-dev-tools patchelf
+          wget -q https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+          chmod +x linuxdeployqt-continuous-x86_64.AppImage
+
+      - name: Build Qt Project
+        run: |
+          mkdir build
+          cd build
+          qmake ../
+          make
+
+      - name: Package as AppImage
+        run: |
+          cd build
+          mkdir -p AppDir/usr
+          cp -r * AppDir/usr/
+          ../linuxdeployqt-continuous-x86_64.AppImage AppDir/usr/bin/number_system_converter_with_big_numbers_handling_gui_qt -appimage -bundle-non-qt-libs
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Linux-AppImage
+          path: build/*.AppImage
+
+  build-windows:
+    name: Build on Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.5.2'
+          host: 'windows'
+
+      - name: Build Qt Project
+        run: |
+          mkdir build
+          cd build
+          qmake ../
+          nmake
+
+      - name: Package with windeployqt
+        run: |
+          cd build
+          mkdir release
+          "C:/Qt/Tools/mingw1120_64/bin/windeployqt.exe" --release --dir release number_system_converter_with_big_numbers_handling_gui_qt.exe
+
+      - name: Zip Windows Executable
+        run: |
+          cd build/release
+          tar -czf windows_build.tar.gz *
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows-Executable
+          path: build/release/windows_build.tar.gz
+
+  build-macos:
+    name: Build on macOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.5.2'
+          host: 'mac'
+
+      - name: Build Qt Project
+        run: |
+          mkdir build
+          cd build
+          qmake ../
+          make
+
+      - name: Package with macdeployqt
+        run: |
+          cd build
+          /Users/runner/hostedtoolcache/Qt/6.5.2/macos/bin/macdeployqt number_system_converter_with_big_numbers_handling_gui_qt.app -dmg
+
+      - name: Upload macOS Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: macOS-DMG
+          path: build/*.dmg
+
+  release:
+    name: Create Release and Attach Artifacts
+    needs: [build-linux, build-windows, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Linux-AppImage
+          path: artifacts/Linux/
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Windows-Executable
+          path: artifacts/Windows/
+
+      - name: Download macOS Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: macOS-DMG
+          path: artifacts/macOS/
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Linux AppImage
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifacts/Linux/*.AppImage
+          asset_name: linux_build.AppImage
+          asset_content_type: application/octet-stream
+
+      - name: Upload Windows Executable
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifacts/Windows/windows_build.tar.gz
+          asset_name: windows_build.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Upload macOS Package
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifacts/macOS/*.dmg
+          asset_name: macos_build.dmg
+          asset_content_type: application/x-apple-diskimage
