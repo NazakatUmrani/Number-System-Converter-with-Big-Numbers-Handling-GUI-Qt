@@ -19,7 +19,7 @@ jobs:
           version: '5.15.2'  # You can specify the Qt version you need
           host: 'linux'
 
-      - name: Manually Install linuxdeployqt
+      - name: Manually Install linuxdeployqt with fuse
         run: |
           # Download the linuxdeployqt AppImage
           wget https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
@@ -29,7 +29,10 @@ jobs:
           
           # Move the AppImage to a directory in PATH (optional)
           sudo mv linuxdeployqt-continuous-x86_64.AppImage /usr/local/bin/linuxdeployqt.AppImage
-   
+          
+          # Install Fuse and libfuse
+          sudo apt-get install fuse libfuse2
+
       - name: Create Build Folder
         run: mkdir build && cd build
 
@@ -67,20 +70,23 @@ jobs:
         uses: egor-tensin/setup-mingw@v2.2.0
         with:
           platform: x64
-        
+      
+      - name: Add MinGW to PATH
+        run: echo "C:\tools\mingw64\bin" >> $env:GITHUB_PATH
+
       - name: Create Build Folder
         run: mkdir build
 
-      - name: Build Project with qmake and make
+      - name: Build Project with qmake and mingw32-make
         run: |
           cd build
-          qmake ..
+          "C:\Qt\5.15.2\mingw81_64\bin\qmake.exe" ..
           mingw32-make
 
       - name: Package Windows App with windeployqt
         run: |
           cd build
-          "C:\Qt\Tools\QtCreator\bin\windeployqt.exe" "Number System Converter GUI.exe"
+          "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" "Number System Converter GUI.exe"
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4.5.0
