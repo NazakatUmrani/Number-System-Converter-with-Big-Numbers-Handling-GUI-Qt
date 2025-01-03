@@ -41,14 +41,41 @@ jobs:
           cd build
           qmake ..
           make -j$(nproc)  # Adjust parallel jobs based on the number of CPU cores
-      
+          
+      - name: Create Desktop File
+        run: |
+          cd build
+          mkdir -p AppDir/usr/share/applications
+          cat > AppDir/usr/share/applications/NumberSystemConverterGUI.desktop <<EOF
+          [Desktop Entry]
+          Name=Number System Converter GUI
+          Exec=NumberSystemConverterGUI
+          Icon=NumberSystemConverterGUI
+          Type=Application
+          Categories=Utility;
+          EOF
+
+      # Uncomment the line below when you're ready to deploy based on tags
+      # - name: Extract Version from Tag (if any)
+      #   id: version-extract
+      #   run: |
+      #     VERSION=${GITHUB_REF#refs/tags/}
+      #     echo "Extracted version: $VERSION"
+      #     echo "VERSION=$VERSION" >> $GITHUB_ENV
+  
+      # Static version used for testing (you can remove this once you switch to tags)
+      - name: Set Version
+        run: echo "VERSION=1.0.0" >> $GITHUB_ENV
+    
       - name: List Build Directory Contents
         run: ls -l build
 
       - name: Package Linux App with linuxdeployqt
         run: |
           cd build
-          /usr/local/bin/linuxdeployqt.AppImage "NumberSystemConverterGUI" -appimage
+          mkdir -p AppDir/usr/bin
+          cp NumberSystemConverterGUI AppDir/usr/bin/
+          /usr/local/bin/linuxdeployqt.AppImage AppDir/usr/bin/NumberSystemConverterGUI -appimage
 
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4.5.0
@@ -87,7 +114,7 @@ jobs:
         run: |
           cd build
           qmake -spec win32-g++ ..
-          mingw32-make -j$(nproc)
+          mingw32-make
   
       - name: Debug Build Directory
         run: ls -l build
