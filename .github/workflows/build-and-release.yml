@@ -28,7 +28,7 @@ jobs:
           chmod +x linuxdeployqt-continuous-x86_64.AppImage
           
           # Move the AppImage to a directory in PATH (optional)
-          sudo mv linuxdeployqt-continuous-x86_64.AppImage /usr/local/bin/linuxdeployqt
+          sudo mv linuxdeployqt-continuous-x86_64.AppImage /usr/local/bin/linuxdeployqt.AppImage
    
       - name: Create Build Folder
         run: mkdir build && cd build
@@ -42,7 +42,7 @@ jobs:
       - name: Package Linux App with linuxdeployqt
         run: |
           cd build
-          linuxdeployqt-continuous-x86_64 "Number System Converter GUI" -appimage
+          /usr/local/bin/linuxdeployqt.AppImage "Number System Converter GUI" -appimage
 
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4.5.0
