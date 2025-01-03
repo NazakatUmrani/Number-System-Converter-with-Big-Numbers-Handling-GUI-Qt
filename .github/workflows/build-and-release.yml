@@ -214,6 +214,10 @@ jobs:
         with:
           name: MacOS-App
 
+      # Verify the downloaded files
+      - name: List downloaded files
+        run: ls -al ${{ github.workspace }}
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -231,7 +235,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: NumberSystemConverterGUI*.AppImage
+          asset_path: ${{ github.workspace }}/NumberSystemConverterGUI*.AppImage
           asset_name: "NumberSystemConverterGUI-linux-${{ github.ref_name }}.AppImage"
           asset_content_type: application/vnd.appimage
 
@@ -241,7 +245,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: NumberSystemConverterGUI.exe
+          asset_path: ${{ github.workspace }}/NumberSystemConverterGUI.exe
           asset_name: "NumberSystemConverterGUI-windows-${{ github.ref_name }}.exe"
           asset_content_type: application/octet-stream
 
@@ -251,6 +255,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: NumberSystemConverterGUI.app
+          asset_path: ${{ github.workspace }}/NumberSystemConverterGUI.app
           asset_name: "NumberSystemConverterGUI-MacOS-${{ github.ref_name }}.app"
           asset_content_type: application/octet-stream
