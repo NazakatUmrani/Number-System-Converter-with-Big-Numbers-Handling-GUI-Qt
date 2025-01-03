@@ -49,7 +49,7 @@ jobs:
           cat > AppDir/usr/share/applications/NumberSystemConverterGUI.desktop <<EOF
           [Desktop Entry]
           Name=Number System Converter GUI
-          Exec=usr/bin/NumberSystemConverterGUI
+          Exec=NumberSystemConverterGUI
           Icon=NumberSystemConverterGUI
           Type=Application
           Categories=Utility;
@@ -75,7 +75,7 @@ jobs:
           cd build
           mkdir -p AppDir/usr/bin
           cp NumberSystemConverterGUI AppDir/usr/bin/
-          /usr/local/bin/linuxdeployqt.AppImage AppDir/usr/bin/NumberSystemConverterGUI -appimage
+          /usr/local/bin/linuxdeployqt.AppImage AppDir/usr/share/applications/NumberSystemConverterGUI.desktop -appimage
 
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4.5.0
