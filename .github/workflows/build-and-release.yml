@@ -48,7 +48,7 @@ jobs:
           mkdir -p build/AppDir/usr/share/icons/hicolor/256x256/apps
           cp img/NumberSystemConverterGUI.png build/AppDir/usr/share/icons/hicolor/256x256/NumberSystemConverterGUI.png
           # Ensure the icon has the correct permissions
-          chmod 644 build/NumberSystemConverterGUI.png
+          chmod 644 build/AppDir/usr/share/icons/hicolor/256x256/NumberSystemConverterGUI.png
   
       - name: Create Desktop File
         run: |
