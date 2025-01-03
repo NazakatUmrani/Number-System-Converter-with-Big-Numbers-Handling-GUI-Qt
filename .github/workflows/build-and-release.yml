@@ -49,7 +49,7 @@ jobs:
           cat > AppDir/usr/share/applications/NumberSystemConverterGUI.desktop <<EOF
           [Desktop Entry]
           Name=Number System Converter GUI
-          Exec=NumberSystemConverterGUI
+          Exec=usr/bin/NumberSystemConverterGUI
           Icon=NumberSystemConverterGUI
           Type=Application
           Categories=Utility;
