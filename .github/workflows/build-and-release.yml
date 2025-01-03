@@ -145,7 +145,7 @@ jobs:
         run: |
           cd build
           # Use the QT_ROOT_DIR variable to access the Qt installation and run windeployqt
-          & "$env:QT_ROOT_DIR\bin\windeployqt.exe" "NumberSystemConverterGUI.exe"
+          & "$env:QT_ROOT_DIR\bin\windeployqt.exe" release/NumberSystemConverterGUI.exe
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4.5.0
