@@ -228,17 +228,22 @@ jobs:
           release_name: Release ${{ github.ref_name }}
           body: "Release for version ${{ github.ref_name }}"
         
-
+      - name: Find .AppImage file
+        id: find_appimage  # Add an ID to the step so outputs can be referenced
+        run: |
+          # Search for the .AppImage file dynamically
+          appimage_file=$(find ${{ github.workspace }} -type f -name "NumberSystemConverterGUI*.AppImage")
+          echo "Found appimage: $appimage_file"
+          echo "::set-output name=appimage_path::$appimage_file"
+      
       - name: Upload Linux Artifact to GitHub Release
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/NumberSystemConverterGUI*.AppImage
-          asset_name: "NumberSystemConverterGUI-linux-${{ github.ref_name }}.AppImage"
+          asset_path: ${{ steps.find_appimage.outputs.appimage_path }}
+          asset_name: $(basename ${{ steps.find_appimage.outputs.appimage_path }})
           asset_content_type: application/vnd.appimage
-
+        
       - name: Upload Windows Artifact to GitHub Release
         uses: actions/upload-release-asset@v1
         env:
