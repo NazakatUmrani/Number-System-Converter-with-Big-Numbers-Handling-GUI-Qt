@@ -108,6 +108,7 @@ jobs:
           version: '5.15.2'
           host: 'windows'
           arch: 'win64_mingw81'
+          add-to-path: true
 
       - name: Manually Install MinGW
         run: |
@@ -131,11 +132,20 @@ jobs:
   
       - name: Debug Build Directory
         run: ls -l build
-
+      
+      - name: Check if windeployqt.exe exists
+        run: |
+          if (Test-Path "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe") {
+            Write-Host "windeployqt.exe found!"
+          } else {
+            Write-Host "windeployqt.exe not found!"
+          }
+      
       - name: Package Windows App with windeployqt
         run: |
           cd build
-          & "C:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe" "NumberSystemConverterGUI.exe"
+          # Use the QT_ROOT_DIR variable to access the Qt installation and run windeployqt
+          & "$env:QT_ROOT_DIR\bin\windeployqt.exe" "NumberSystemConverterGUI.exe"
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4.5.0
