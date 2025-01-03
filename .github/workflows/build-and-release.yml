@@ -41,7 +41,15 @@ jobs:
           cd build
           qmake ..
           make -j$(nproc)  # Adjust parallel jobs based on the number of CPU cores
-          
+      
+      - name: Copy Icon from img Folder
+        run: |
+          # Copy your image from the img folder (located in the root) to the correct location in the AppImage
+          mkdir -p build/AppDir/usr/share/icons/hicolor/256x256/apps
+          cp img/NumberSystemConverterGUI.png build/AppDir/usr/share/icons/hicolor/256x256/NumberSystemConverterGUI.png
+          # Ensure the icon has the correct permissions
+          chmod 644 build/NumberSystemConverterGUI.png
+  
       - name: Create Desktop File
         run: |
           cd build
@@ -52,6 +60,7 @@ jobs:
           Exec=NumberSystemConverterGUI
           Icon=NumberSystemConverterGUI
           Type=Application
+          Comment=Convert between different number systems with big numbers handling.
           Categories=Utility;
           EOF
 
