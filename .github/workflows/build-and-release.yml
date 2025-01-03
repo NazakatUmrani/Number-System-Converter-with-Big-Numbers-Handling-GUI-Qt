@@ -238,6 +238,8 @@ jobs:
       
       - name: Upload Linux Artifact to GitHub Release
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ steps.find_appimage.outputs.appimage_path }}
