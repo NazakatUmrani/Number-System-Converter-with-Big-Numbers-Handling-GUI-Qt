@@ -270,12 +270,17 @@ jobs:
           asset_name: "NumberSystemConverterGUI-windows-${{ github.ref_name }}.exe"
           asset_content_type: application/octet-stream
 
+      - name: Zip the MacOS .app
+        run: |
+          cd ${{ github.workspace }}
+          zip -r NumberSystemConverterGUI.zip NumberSystemConverterGUI.app
+
       - name: Upload MacOS Artifact to GitHub Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/NumberSystemConverterGUI.app
-          asset_name: "NumberSystemConverterGUI-MacOS-${{ github.ref_name }}.app"
-          asset_content_type: application/octet-stream
+          asset_path: ${{ github.workspace }}/NumberSystemConverterGUI.zip
+          asset_name: "NumberSystemConverterGUI-MacOS-${{ github.ref_name }}.zip"
+          asset_content_type: application/zip
