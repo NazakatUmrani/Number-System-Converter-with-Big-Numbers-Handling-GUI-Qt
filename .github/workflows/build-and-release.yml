@@ -92,7 +92,7 @@ jobs:
         uses: jurplel/install-qt-action@v4.1.1
         with:
           version: '5.15.2'  # You can specify the Qt version you need
-          target: 'mac'
+          host: 'mac'
 
       - name: Create Build Folder
         run: mkdir build && cd build
