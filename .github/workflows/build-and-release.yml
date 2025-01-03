@@ -2,8 +2,8 @@ name: Build and Package Number System Converter GUI
 
 on:
   push:
-    tags:
-      - '*'
+  #   tags:
+  #     - '*'
 
 jobs:
   build-linux:
@@ -13,16 +13,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4.2.2
 
-      - name: Install Qt and dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qt5-qmake qtbase5-dev qtchooser
-          sudo apt-get install -y linuxdeployqt
-          # Install linuxdeployqt from the GitHub release
-          wget https://github.com/linuxdeploy/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
-          chmod +x linuxdeployqt-continuous-x86_64.AppImage
-          sudo mv linuxdeployqt-continuous-x86_64.AppImage /usr/local/bin/linuxdeployqt
+      - name: Install Qt using jurplel/install-qt-action
+        uses: jurplel/install-qt-action@v4.1.1
+        with:
+          qt-version: '5.15.2'  # You can specify the Qt version you need
 
+      - name: Install linuxdeployqt using action
+        uses: miurahr/install-linuxdeployqt-action@v1.0.1
+       
       - name: Create Build Folder
         run: mkdir build && cd build
 
@@ -50,15 +48,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4.2.2
 
-      - name: Set up Visual Studio Developer Command Prompt
-        uses: ilammy/msvc-dev-cmd@v1.13.0
-
-      - name: Install vcpkg and Qt for Windows
-        run: |
-          # Install vcpkg
-          git clone https://github.com/microsoft/vcpkg.git
-          ./vcpkg/bootstrap-vcpkg.sh
-          ./vcpkg/vcpkg install qt5
+      - name: Install Qt using jurplel/install-qt-action
+        uses: jurplel/install-qt-action@v4.1.1
+        with:
+          qt-version: '5.15.2'  # You can specify the Qt version you need
+          target-platforms: 'win64'
 
       - name: Create Build Folder
         run: mkdir build && cd build
@@ -87,9 +81,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4.2.2
 
-      - name: Install Qt for macOS
-        run: |
-          brew install qt
+      - name: Install Qt using jurplel/install-qt-action
+        uses: jurplel/install-qt-action@v4.1.1
+        with:
+          qt-version: '5.15.2'  # You can specify the Qt version you need
+          target-platforms: 'macos'
 
       - name: Create Build Folder
         run: mkdir build && cd build
@@ -99,10 +95,12 @@ jobs:
           cd build
           qmake ..
           make -j$(sysctl -n hw.ncpu)  # Automatically use all CPU cores
+          ls
 
       - name: Package macOS App
         run: |
           cd build
+          ls
           macdeployqt "Number System Converter GUI.app"
 
       - name: Upload macOS Artifact
