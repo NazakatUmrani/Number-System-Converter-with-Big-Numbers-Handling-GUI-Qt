@@ -87,7 +87,7 @@ jobs:
           /usr/local/bin/linuxdeployqt.AppImage AppDir/usr/share/applications/NumberSystemConverterGUI.desktop -appimage
 
       - name: List Contents
-        run: ls -l AppDir
+        run: ls -l build/AppDir
   
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4.5.0
