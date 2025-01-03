@@ -1,188 +1,214 @@
-name: Build and Release Qt App
+#--------------------------------------------------------------------------------
+# Workflow configuration
+#--------------------------------------------------------------------------------
 
+name: Build
 on:
-  push:
-    tags:
-      - 'v*'
+  push:               # Run on push
+  pull_request:       # Run on pull-request
+
+#--------------------------------------------------------------------------------
+# Define application name & version
+#--------------------------------------------------------------------------------
+
+env:
+  VERSION: "1.0.0"
+  EXECUTABLE: "NumberSystemConverterGUI"
+  APPLICATION: "Number System Converter GUI"
+  QMAKE_PROJECT: "NumberSystemConverterGUI.pro"
+  # QML_DIR_NIX: "assets/qml"
+  # QML_DIR_WIN: "assets\\qml"
+
+#--------------------------------------------------------------------------------
+# Workflow jobs (GNU/Linux, macOS & Windows)
+#--------------------------------------------------------------------------------
 
 jobs:
+  #
+  # GNU/Linux build (we run on Ubuntu 16.04 to generate AppImage)
+  #
   build-linux:
-    name: Build on Linux and Create AppImage
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Install Dependencies
+      #
+      # Checkout the repository
+      #
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+      #
+      # Install Qt
+      #
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+          
+      #
+      # Install additional dependencies, stolen from:
+      # https://github.com/mapeditor/tiled/blob/master/.github/workflows/packages.yml
+      #
+      - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qtbase5-dev qttools5-dev-tools build-essential libqt5widgets5 qt5-qmake patchelf
-          wget -q https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
-          chmod +x linuxdeployqt-continuous-x86_64.AppImage
-
-      - name: Build Qt Project
+            sudo apt-get update
+            sudo apt-get install libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev
+        
+      #
+      # Compile the application
+      #
+      - name: Compile
         run: |
-          mkdir build
-          cd build
-          qmake ../
-          make
-
-      - name: Package as AppImage
-        run: |
-          cd build
-          mkdir -p AppDir/usr
-          cp -r * AppDir/usr/
-          ../linuxdeployqt-continuous-x86_64.AppImage AppDir/usr/bin/number_system_converter_with_big_numbers_handling_gui_qt -appimage -bundle-non-qt-libs
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+              mkdir build
+              cd build
+              qmake ../
+              make
+             
+      #
+      # Create the AppImage
+      #
+      - name: Create AppImage
+        run: | 
+             make INSTALL_ROOT=appdir install
+             wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt
+             chmod a+x linuxdeployqt
+             ./linuxdeployqt appdir/usr/share/applications/*.desktop -appimage -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so
+     
+      #
+      # Rename AppImage to match "%AppName%-%Version%-Linux.AppImage" format
+      #
+      - name: Rename AppImage
+        run: mv *.AppImage ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
+        
+      #
+      # Upload AppImage to build artifacts
+      #
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v2
         with:
-          name: Linux-AppImage
-          path: build/*.AppImage
-
-  build-windows:
-    name: Build on Windows
-    runs-on: windows-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: '6.5.2'
-          host: 'windows'
-
-      - name: Build Qt Project
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
-          mkdir build
-          cd build
-          qmake ../
-          nmake
-
-      - name: Debug Environment
-        shell: cmd
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
-          set
-
-      - name: Check Compiler and Build Tools
-        shell: cmd
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
-          where cl
-          where nmake
-
-      - name: Package with windeployqt
-        run: |
-          cd build
-          mkdir release
-          "C:/Qt/Tools/mingw1120_64/bin/windeployqt.exe" --release --dir release number_system_converter_with_big_numbers_handling_gui_qt.exe
-
-      - name: Zip Windows Executable
-        run: |
-          cd build/release
-          tar -czf windows_build.tar.gz *
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: Windows-Executable
-          path: build/release/windows_build.tar.gz
-  
-
-  build-macos:
-    name: Build on macOS
+          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
+          path: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
+             
+  #
+  # macOS build
+  #
+  build-mac:
     runs-on: macos-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      #
+      # Checkout the repository
+      #
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
 
-      - name: Set up Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: '6.5.2'
-          host: 'mac'
-
-      - name: Build Qt Project
+      #
+      # Install Qt
+      #
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+      
+      #
+      # Compile application
+      #
+      - name: Compile
         run: |
-          mkdir build
-          cd build
-          qmake ../
-          make
-
-      - name: Package with macdeployqt
+              mkdir build
+              cd build
+              qmake ../
+              make
+             
+      #
+      # Deploy application
+      #
+      - name: Deploy app
         run: |
-          cd build
-          /Users/runner/hostedtoolcache/Qt/6.5.2/macos/bin/macdeployqt number_system_converter_with_big_numbers_handling_gui_qt.app -dmg
-
-      - name: Upload macOS Package
-        uses: actions/upload-artifact@v3
+             macdeployqt ${{env.EXECUTABLE}}.app
+             mv "${{env.EXECUTABLE}}.app" "${{env.APPLICATION}}.app"  
+      
+      #
+      # ZIP application "%AppName%-%Version%-macOS.zip"
+      # We use ditto instead of zip to use the same commands as Finder
+      #
+      - name: Create ZIP file
+        run: |
+             ditto -c -k --sequesterRsrc --keepParent "${{env.APPLICATION}}.app" ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
+     
+      #
+      # Upload ZIP to build artifacts
+      #
+      - name: Upload ZIP
+        uses: actions/upload-artifact@v2
         with:
-          name: macOS-DMG
-          path: build/*.dmg
-
-  release:
-    name: Create Release and Attach Artifacts
-    needs: [build-linux, build-windows, build-macos]
-    runs-on: ubuntu-latest
+          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
+          path: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
+          
+  #
+  # Windows build
+  #
+  build-windows:
+    runs-on: windows-latest
     steps:
-      - name: Download Linux Artifact
-        uses: actions/download-artifact@v3
+      #
+      # Checkout the repository
+      #
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+      
+      #
+      # Configure MSVC
+      #
+      - name: Configure MSVC
+        uses: ilammy/msvc-dev-cmd@v1
         with:
-          name: Linux-AppImage
-          path: artifacts/Linux/
+          arch: x64
+          spectre: true
 
-      - name: Download Windows Artifact
-        uses: actions/download-artifact@v3
+      #
+      # Install Qt
+      #
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+          
+      #
+      # Install NSIS
+      #  
+      - name: Install NSIS
+        run: |
+             Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+             scoop bucket add extras
+             scoop install nsis
+ 
+      #
+      # Compile application
+      #
+      - name: Compile
+        run: |
+             qmake ${{env.QMAKE_PROJECT}} CONFIG+=release
+             nmake
+             
+      #
+      # Copy Qt DLLs, compiler runtime & application icon
+      #       
+      - name: Deploy
+        run: |
+             mkdir bin
+             move release/${{env.EXECUTABLE}}.exe bin
+             windeployqt bin/${{env.EXECUTABLE}}.exe --compiler-runtime
+             mkdir "${{env.APPLICATION}}"
+             move bin "${{env.APPLICATION}}"
+             xcopy deploy\windows\resources\icon.ico "${{env.APPLICATION}}"
+      
+      #
+      # Create NSIS installer
+      #
+      - name: Make NSIS installer
+        run: |
+             move "${{env.APPLICATION}}" deploy\windows\nsis\
+             cd deploy\windows\nsis
+             makensis /X"SetCompressor /FINAL lzma" setup.nsi
+             ren *.exe ${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
+             
+      #
+      # Upload installer to build artifacts
+      #
+      - name: Upload NSIS installer
+        uses: actions/upload-artifact@v2
         with:
-          name: Windows-Executable
-          path: artifacts/Windows/
-
-      - name: Download macOS Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: macOS-DMG
-          path: artifacts/macOS/
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Linux AppImage
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifacts/Linux/*.AppImage
-          asset_name: linux_build.AppImage
-          asset_content_type: application/octet-stream
-
-      - name: Upload Windows Executable
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifacts/Windows/windows_build.tar.gz
-          asset_name: windows_build.tar.gz
-          asset_content_type: application/gzip
-
-      - name: Upload macOS Package
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifacts/macOS/*.dmg
-          asset_name: macos_build.dmg
-          asset_content_type: application/x-apple-diskimage
+          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
+          path: deploy/windows/nsis/${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
