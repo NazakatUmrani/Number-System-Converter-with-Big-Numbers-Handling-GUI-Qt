@@ -25,8 +25,7 @@ HEADERS += \
 
 FORMS += \
     historydialog.ui \
-    mainwindow.ui \
-    mainwindow_copy.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
