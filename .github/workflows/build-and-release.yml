@@ -19,7 +19,7 @@ jobs:
           qt-version: '5.15.2'  # You can specify the Qt version you need
 
       - name: Install linuxdeployqt using action
-        uses: miurahr/install-linuxdeployqt-action@v1.0.1
+        uses: miurahr/install-linuxdeployqt-action@v0
        
       - name: Create Build Folder
         run: mkdir build && cd build
@@ -33,7 +33,7 @@ jobs:
       - name: Package Linux App with linuxdeployqt
         run: |
           cd build
-          linuxdeployqt "Number System Converter GUI" -appimage
+          linuxdeployqt-continuous-x86_64.AppImage "Number System Converter GUI" -appimage
 
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4.5.0
@@ -53,6 +53,12 @@ jobs:
         with:
           qt-version: '5.15.2'  # You can specify the Qt version you need
           target-platforms: 'win64'
+
+      - name: Configure MSVC
+        uses: ilammy/msvc-dev-cmd@v1.13.0
+        with:
+          arch: x64
+          spectre: true
 
       - name: Create Build Folder
         run: mkdir build && cd build
@@ -101,13 +107,13 @@ jobs:
         run: |
           cd build
           ls
-          macdeployqt "Number System Converter GUI.app"
+          macdeployqt "NumberSystemConverterGUI.app"
 
       - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4.5.0
         with:
           name: macOS-App
-          path: build/"Number System Converter GUI.app"
+          path: build/"NumberSystemConverterGUI.app"
 
   upload-release:
     name: Upload All Artifacts to Release
