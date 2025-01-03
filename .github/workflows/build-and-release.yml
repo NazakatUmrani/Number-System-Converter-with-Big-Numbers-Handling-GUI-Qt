@@ -1,214 +1,145 @@
-#--------------------------------------------------------------------------------
-# Workflow configuration
-#--------------------------------------------------------------------------------
+name: Build and Package Number System Converter GUI
 
-name: Build
 on:
-  push:               # Run on push
-  pull_request:       # Run on pull-request
-
-#--------------------------------------------------------------------------------
-# Define application name & version
-#--------------------------------------------------------------------------------
-
-env:
-  VERSION: "1.0.0"
-  EXECUTABLE: "NumberSystemConverterGUI"
-  APPLICATION: "Number System Converter GUI"
-  QMAKE_PROJECT: "NumberSystemConverterGUI.pro"
-  # QML_DIR_NIX: "assets/qml"
-  # QML_DIR_WIN: "assets\\qml"
-
-#--------------------------------------------------------------------------------
-# Workflow jobs (GNU/Linux, macOS & Windows)
-#--------------------------------------------------------------------------------
+  push:
+    tags:
+      - '*'
 
 jobs:
-  #
-  # GNU/Linux build (we run on Ubuntu 16.04 to generate AppImage)
-  #
   build-linux:
-    runs-on: ubuntu-16.04
+    name: Build for Linux
+    runs-on: ubuntu-latest
     steps:
-      #
-      # Checkout the repository
-      #
-      - name: Checkout repository and submodules
-        uses: actions/checkout@v4.2.2
-      #
-      # Install Qt
-      #
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v4.1.1
-          
-      #
-      # Install additional dependencies, stolen from:
-      # https://github.com/mapeditor/tiled/blob/master/.github/workflows/packages.yml
-      #
-      - name: Install dependencies
-        run: |
-            sudo apt-get update
-            sudo apt-get install libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev
-        
-      #
-      # Compile the application
-      #
-      - name: Compile
-        run: |
-              mkdir build
-              cd build
-              qmake ../
-              make
-             
-      #
-      # Create the AppImage
-      #
-      - name: Create AppImage
-        run: | 
-             make INSTALL_ROOT=appdir install
-             wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt
-             chmod a+x linuxdeployqt
-             ./linuxdeployqt appdir/usr/share/applications/*.desktop -appimage -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so
-     
-      #
-      # Rename AppImage to match "%AppName%-%Version%-Linux.AppImage" format
-      #
-      - name: Rename AppImage
-        run: mv *.AppImage ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
-        
-      #
-      # Upload AppImage to build artifacts
-      #
-      - name: Upload AppImage
-        uses: actions/upload-artifact@v4.5.0
-        with:
-          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
-          path: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux.AppImage
-             
-  #
-  # macOS build
-  #
-  build-mac:
-    runs-on: macos-latest
-    steps:
-      #
-      # Checkout the repository
-      #
-      - name: Checkout repository and submodules
-        uses: actions/checkout@v4.2.2
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      #
-      # Install Qt
-      #
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v4.1.1
-       
-      #
-      # Compile application
-      #
-      - name: Compile
+      - name: Install Qt and dependencies
         run: |
-              mkdir build
-              cd build
-              qmake ../
-              make
-             
-      #
-      # Deploy application
-      #
-      - name: Deploy app
+          sudo apt-get update
+          sudo apt-get install -y qt5-qmake qtbase5-dev qtchooser
+          sudo apt-get install -y linuxdeployqt
+
+      - name: Create Build Folder
+        run: mkdir build && cd build
+
+      - name: Build Project with qmake and make
         run: |
-             macdeployqt ${{env.EXECUTABLE}}.app
-             mv "${{env.EXECUTABLE}}.app" "${{env.APPLICATION}}.app"  
-      
-      #
-      # ZIP application "%AppName%-%Version%-macOS.zip"
-      # We use ditto instead of zip to use the same commands as Finder
-      #
-      - name: Create ZIP file
+          cd build
+          qmake ..
+          make -j$(nproc)  # Adjust parallel jobs based on the number of CPU cores
+
+      - name: Package Linux App with linuxdeployqt
         run: |
-             ditto -c -k --sequesterRsrc --keepParent "${{env.APPLICATION}}.app" ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
-     
-      #
-      # Upload ZIP to build artifacts
-      #
-      - name: Upload ZIP
-        uses: actions/upload-artifact@v4.5.0
+          cd build
+          linuxdeployqt "Number System Converter GUI" -appimage
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
-          path: ${{env.EXECUTABLE}}-${{env.VERSION}}-macOS.zip
-          
-  #
-  # Windows build
-  #
+          name: Linux-AppImage
+          path: build/Number\ System\ Converter\ GUI*.AppImage
+
   build-windows:
+    name: Build for Windows
     runs-on: windows-latest
     steps:
-      #
-      # Checkout the repository
-      #
-      - name: Checkout repository and submodules
-        uses: actions/checkout@v4.2.2
-      
-      #
-      # Configure MSVC
-      #
-      - name: Configure MSVC
-        uses: ilammy/msvc-dev-cmd@v1.13.0
-        with:
-          arch: x64
-          spectre: true
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      #
-      # Install Qt
-      #
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v4.1.1
-        
-      #
-      # Install NSIS
-      #  
-      - name: Install NSIS
+      - name: Set up Visual Studio Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1.13.0
+
+      - name: Install Qt for Windows
         run: |
-             Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-             scoop bucket add extras
-             scoop install nsis
- 
-      #
-      # Compile application
-      #
-      - name: Compile
+          choco install qt
+
+      - name: Create Build Folder
+        run: mkdir build && cd build
+
+      - name: Build Project with qmake and nmake
         run: |
-             qmake ${{env.QMAKE_PROJECT}} CONFIG+=release
-             nmake
-             
-      #
-      # Copy Qt DLLs, compiler runtime & application icon
-      #       
-      - name: Deploy
+          cd build
+          qmake ..
+          nmake
+
+      - name: Package Windows App with windeployqt
         run: |
-             mkdir bin
-             move release/${{env.EXECUTABLE}}.exe bin
-             windeployqt bin/${{env.EXECUTABLE}}.exe --compiler-runtime
-             mkdir "${{env.APPLICATION}}"
-             move bin "${{env.APPLICATION}}"
-             xcopy deploy\windows\resources\icon.ico "${{env.APPLICATION}}"
-      
-      #
-      # Create NSIS installer
-      #
-      - name: Make NSIS installer
-        run: |
-             move "${{env.APPLICATION}}" deploy\windows\nsis\
-             cd deploy\windows\nsis
-             makensis /X"SetCompressor /FINAL lzma" setup.nsi
-             ren *.exe ${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
-             
-      #
-      # Upload installer to build artifacts
-      #
-      - name: Upload NSIS installer
-        uses: actions/upload-artifact@v4.5.0
+          cd build
+          "C:\Qt\Tools\QtCreator\bin\windeployqt.exe" "Number System Converter GUI.exe"
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
-          path: deploy/windows/nsis/${{env.EXECUTABLE}}-${{env.VERSION}}-Windows.exe
+          name: Windows-Executable
+          path: build/"Number System Converter GUI.exe"
+
+  build-macos:
+    name: Build for macOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Qt for macOS
+        run: |
+          brew install qt
+
+      - name: Create Build Folder
+        run: mkdir build && cd build
+
+      - name: Build Project with qmake and make
+        run: |
+          cd build
+          qmake ..
+          make -j$(sysctl -n hw.ncpu)  # Automatically use all CPU cores
+
+      - name: Package macOS App
+        run: |
+          cd build
+          macdeployqt "Number System Converter GUI.app"
+
+      - name: Upload macOS Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: macOS-App
+          path: build/"Number System Converter GUI.app"
+
+  upload-release:
+    name: Upload All Artifacts to Release
+    runs-on: ubuntu-latest
+    needs: [build-linux, build-windows, build-macos]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: gh actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: "Release for version ${{ github.ref }}"
+
+      - name: Upload Linux Artifact to GitHub Release
+        uses: gh actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/Number\ System\ Converter\ GUI*.AppImage
+          asset_name: "Number System Converter GUI-linux-${{ github.ref }}.AppImage"
+          asset_content_type: application/vnd.appimage
+
+      - name: Upload Windows Artifact to GitHub Release
+        uses: gh actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/"Number System Converter GUI.exe"
+          asset_name: "Number System Converter GUI-windows-${{ github.ref }}.exe"
+          asset_content_type: application/octet-stream
+
+      - name: Upload macOS Artifact to GitHub Release
+        uses: gh actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/"Number System Converter GUI.app"
+          asset_name: "Number System Converter GUI-macos-${{ github.ref }}.app"
+          asset_content_type: application/octet-stream
