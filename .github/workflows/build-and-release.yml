@@ -169,13 +169,13 @@ jobs:
         run: |
           cd build
           ls
-          macdeployqt "NumberSystemConverterGUI.app"
+          macdeployqt NumberSystemConverterGUI.app
 
       - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4.5.0
         with:
           name: macOS-App
-          path: build/"NumberSystemConverterGUI.app"
+          path: build/NumberSystemConverterGUI.app
 
   upload-release:
     name: Upload All Artifacts to Release
