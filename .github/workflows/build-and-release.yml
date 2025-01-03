@@ -156,7 +156,7 @@ jobs:
           compression-level: 0
 
   build-macos:
-    name: Build for macOS
+    name: Build for MacOS
     runs-on: macos-latest
     steps:
       - name: Checkout Code
@@ -178,16 +178,16 @@ jobs:
           make -j$(sysctl -n hw.ncpu)  # Automatically use all CPU cores
           ls
 
-      - name: Package macOS App
+      - name: Package MacOS App
         run: |
           cd build
           ls
           macdeployqt NumberSystemConverterGUI.app
 
-      - name: Upload macOS Artifact
+      - name: Upload MacOS Artifact
         uses: actions/upload-artifact@v4.5.0
         with:
-          name: macOS-App
+          name: MacOS-App
           path: build/NumberSystemConverterGUI.app
           compression-level: 0
 
@@ -198,6 +198,21 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4.2.2
+
+      - name: Download Linux Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: Linux-AppImage
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: Windows-Executable
+
+      - name: Download MacOS Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: MacOS-App
 
       - name: Create GitHub Release
         id: create_release
@@ -216,7 +231,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/NumberSystemConverterGUI*.AppImage
+          asset_path: NumberSystemConverterGUI*.AppImage
           asset_name: "NumberSystemConverterGUI-linux-${{ github.ref_name }}.AppImage"
           asset_content_type: application/vnd.appimage
 
@@ -226,16 +241,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/release/NumberSystemConverterGUI.exe
+          asset_path: NumberSystemConverterGUI.exe
           asset_name: "NumberSystemConverterGUI-windows-${{ github.ref_name }}.exe"
           asset_content_type: application/octet-stream
 
-      - name: Upload macOS Artifact to GitHub Release
+      - name: Upload MacOS Artifact to GitHub Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/NumberSystemConverterGUI.app
-          asset_name: "NumberSystemConverterGUI-macos-${{ github.ref_name }}.app"
+          asset_path: NumberSystemConverterGUI.app
+          asset_name: "NumberSystemConverterGUI-MacOS-${{ github.ref_name }}.app"
           asset_content_type: application/octet-stream
