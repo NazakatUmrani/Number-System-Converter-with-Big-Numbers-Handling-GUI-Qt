@@ -213,6 +213,7 @@ jobs:
         uses: actions/download-artifact@v4.1.8
         with:
           name: MacOS-App
+          path: ${{ github.workspace }}/NumberSystemConverterGUI.app
 
           # Ensure tree is installed
       - name: Install tree
