@@ -218,7 +218,7 @@ jobs:
       - name: List downloaded files
         run: |
             ls -al ${{ github.workspace }}
-            ls -al ${{ github.workspace }}/Contents
+            ls -al ${{ github.workspace }}/Contents/MacOS
 
       - name: Create GitHub Release
         id: create_release
