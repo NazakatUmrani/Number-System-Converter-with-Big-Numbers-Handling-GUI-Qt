@@ -16,10 +16,11 @@ jobs:
       - name: Install Qt using jurplel/install-qt-action
         uses: jurplel/install-qt-action@v4.1.1
         with:
-          qt-version: '5.15.2'  # You can specify the Qt version you need
+          version: '5.15.2'  # You can specify the Qt version you need
+          host: 'linux'
 
       - name: Install linuxdeployqt using action
-        uses: miurahr/install-linuxdeployqt-action@v0
+        uses: miurahr/install-linuxdeployqt-action@v1.0.1
        
       - name: Create Build Folder
         run: mkdir build && cd build
@@ -51,8 +52,8 @@ jobs:
       - name: Install Qt using jurplel/install-qt-action
         uses: jurplel/install-qt-action@v4.1.1
         with:
-          qt-version: '5.15.2'  # You can specify the Qt version you need
-          target-platforms: 'win64'
+          version: '5.15.2'  # You can specify the Qt version you need
+          host: 'windows'
 
       - name: Configure MSVC
         uses: ilammy/msvc-dev-cmd@v1.13.0
@@ -90,8 +91,8 @@ jobs:
       - name: Install Qt using jurplel/install-qt-action
         uses: jurplel/install-qt-action@v4.1.1
         with:
-          qt-version: '5.15.2'  # You can specify the Qt version you need
-          target-platforms: 'macos'
+          version: '5.15.2'  # You can specify the Qt version you need
+          target: 'mac'
 
       - name: Create Build Folder
         run: mkdir build && cd build
