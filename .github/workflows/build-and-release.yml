@@ -151,7 +151,7 @@ jobs:
         uses: actions/upload-artifact@v4.5.0
         with:
           name: Windows-Executable
-          path: build/NumberSystemConverterGUI.exe
+          path: build/release/NumberSystemConverterGUI.exe
 
   build-macos:
     name: Build for macOS
